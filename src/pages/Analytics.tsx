@@ -1,47 +1,46 @@
-import React from 'react';
-import { Line } from 'react-chartjs-2'; // Importing Line chart from chart.js for analytics
+import { Line } from 'react-chartjs-2';
+import { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { mockRevenueData, mockExpenseData } from '@/data/mockData';
 
-// Interface for chart data
-interface ChartData {
-  labels: string[];
-  datasets: {
-    label: string;
-    data: number[];
-    backgroundColor: string;
-    borderColor: string;
-    borderWidth: number;
-  }[];
-}
+const Analytics = () => {
+  const [chartData, setChartData] = useState({});
 
-const Analytics: React.FC = () => {
-  // Chart data sample
-  const data: ChartData = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [{
-      label: 'Sales',
-      data: [65, 59, 80, 81, 56, 55, 40],
-      backgroundColor: 'rgba(75, 192, 192, 0.2)',
-      borderColor: 'rgba(75, 192, 192, 1)',
-      borderWidth: 1,
-    }],
-  };
+  useEffect(() => {
+    setChartData({
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      datasets: [
+        {
+          label: 'Revenue',
+          data: mockRevenueData,
+          borderColor: 'rgba(75,192,192,1)',
+          fill: false,
+        },
+        {
+          label: 'Expenses',
+          data: mockExpenseData,
+          borderColor: 'rgba(255,99,132,1)',
+          fill: false,
+        },
+      ],
+    });
+  }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center p-4">
-      <h1 className="text-2xl font-bold mb-4">Analytics Overview</h1>
-      <div className="max-w-4xl w-full"> {/* Ensuring chart fits without scrolling */}
-        <Line data={data} options={{
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: {
-              beginAtZero: true,
-            },
-          },
-        }} />
+    <div className="p-4 flex flex-col space-y-4">
+      <h2 className="text-xl font-bold">Monthly Revenue & Expenses Track</h2>
+      <div className="flex flex-col bg-white rounded-lg shadow p-4">
+        <Line data={chartData} options={{ responsive: true }} />
       </div>
+      <Button>
+        Refresh Data
+      </Button>
     </div>
   );
 };
 
 export default Analytics;
+
+// Mocked Data
+export const mockRevenueData = [3000, 2000, 4000, 5000, 6000, 7000, 8000];
+export const mockExpenseData = [1500, 2500, 3000, 3500, 2000, 4500, 5000];
