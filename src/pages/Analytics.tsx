@@ -1,46 +1,39 @@
 import React from 'react';
-import { Line } from 'react-chartjs-2'; // Importing Line chart from chart.js for analytics
+import { useQuery } from '@tanstack/react-query';
+import { Layout } from '@/components/Layout';
+import { ChartComponent } from '@/components/ui/chart';
+import { fetchAnalyticsData } from '@/api/analytics';
 
-// Interface for chart data
-interface ChartData {
-  labels: string[];
-  datasets: {
-    label: string;
-    data: number[];
-    backgroundColor: string;
-    borderColor: string;
-    borderWidth: number;
-  }[];
-}
+/**
+ * Analytics Page
+ * 
+ * This page displays the analytics charts which fit within the main layout.
+ * Ensures that charts have proper spacing and do not cause a scroll.
+ */
+const Analytics = () => {
+  const { data, isLoading, isError } = useQuery('analyticsData', fetchAnalyticsData);
 
-const Analytics: React.FC = () => {
-  // Chart data sample
-  const data: ChartData = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [{
-      label: 'Sales',
-      data: [65, 59, 80, 81, 56, 55, 40],
-      backgroundColor: 'rgba(75, 192, 192, 0.2)',
-      borderColor: 'rgba(75, 192, 192, 1)',
-      borderWidth: 1,
-    }],
-  };
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error fetching analytics data!</div>;
+  }
 
   return (
-    <div className="flex flex-col items-center justify-center p-4">
-      <h1 className="text-2xl font-bold mb-4">Analytics Overview</h1>
-      <div className="max-w-4xl w-full"> {/* Ensuring chart fits without scrolling */}
-        <Line data={data} options={{
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: {
-              beginAtZero: true,
-            },
-          },
-        }} />
+    <Layout>
+      <div className="flex flex-col space-y-4 p-4">
+        <h1 className="text-xl font-semibold">Analytics</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {data.charts.map((chart) => (
+            <div key={chart.id} className="bg-white shadow rounded-lg p-4">
+              <ChartComponent chartData={chart.data} />
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 
