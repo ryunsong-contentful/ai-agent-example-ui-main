@@ -1,24 +1,25 @@
+import React from 'react';
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
-const ANALYTICS_DATA = {
-  revenue: [
-    { month: 'January', revenue: 45000, expenses: 32000 },
-    { month: 'February', revenue: 52000, expenses: 35000 },
-    { month: 'March', revenue: 48000, expenses: 31000 },
-    { month: 'April', revenue: 61000, expenses: 42000 },
-    { month: 'May', revenue: 55000, expenses: 38000 },
-    { month: 'June', revenue: 67000, expenses: 45000 }
-  ],
-  users: [
-    { month: 'January', users: 1200, activeUsers: 890 },
-    { month: 'February', users: 1450, activeUsers: 1100 },
-    { month: 'March', users: 1680, activeUsers: 1280 },
-    { month: 'April', users: 1920, activeUsers: 1450 },
-    { month: 'May', users: 2150, activeUsers: 1620 },
-    { month: 'June', users: 2380, activeUsers: 1820 }
-  ]
-};
+// Mocked data for charts
+const revenueData = [
+  { month: 'January', revenue: 45000, expenses: 32000 },
+  { month: 'February', revenue: 52000, expenses: 35000 },
+  { month: 'March', revenue: 48000, expenses: 31000 },
+  { month: 'April', revenue: 61000, expenses: 42000 },
+  { month: 'May', revenue: 55000, expenses: 38000 },
+  { month: 'June', revenue: 67000, expenses: 45000 },
+];
+
+const userGrowthData = [
+  { month: 'January', users: 1200, activeUsers: 890 },
+  { month: 'February', users: 1450, activeUsers: 1100 },
+  { month: 'March', users: 1680, activeUsers: 1280 },
+  { month: 'April', users: 1920, activeUsers: 1450 },
+  { month: 'May', users: 2150, activeUsers: 1620 },
+  { month: 'June', users: 2380, activeUsers: 1820 },
+];
 
 const Analytics = () => {
   return (
@@ -34,7 +35,7 @@ const Analytics = () => {
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={400}>
-            <BarChart data={ANALYTICS_DATA.revenue}>
+            <BarChart data={revenueData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
               <YAxis />
@@ -53,7 +54,7 @@ const Analytics = () => {
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={400}>
-            <LineChart data={ANALYTICS_DATA.users}>
+            <LineChart data={userGrowthData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
               <YAxis />
