@@ -90,3 +90,39 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .animate-gradient-x {
+    animation: gradient-x 3s ease infinite;
+    background-size: 200% auto;
+  }
+
+  @keyframes gradient-x {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .delay-75 {
+    animation-delay: 75ms;
+  }
+
+  .delay-150 {
+    animation-delay: 150ms;
+  }
+
+  .delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .delay-500 {
+    animation-delay: 500ms;
+  }
+
+  .delay-1000 {
+    animation-delay: 1000ms;
+  }
+}
