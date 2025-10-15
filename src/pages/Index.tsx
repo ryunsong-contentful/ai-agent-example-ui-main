@@ -9,7 +9,7 @@ const Index = () => {
     <div className="flex min-h-screen items-center justify-center bg-background">
       <div className="text-center space-y-6">
         <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
-          Ticket Oblierator Example
+          Ticket Oblierator
         </h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
           Automate your GitHub pull requests with AI-powered workflows
