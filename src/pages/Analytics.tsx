@@ -1,60 +1,66 @@
-import React from 'react';
-import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { trafficData } from '@/data/trafficData';
-import { userGrowthData } from '@/data/userGrowthData';
-import { productPerformanceData } from '@/data/productPerformanceData';
+import { useEffect } from 'react';
+import { ResponsiveContainer, LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
+import { trafficData, userData, revenueData, productPerformanceData } from '@/data/charts';
+import { ChartContainer } from '@/components/ui/chart-container';
 
+/**
+ * Analytics Page rendering various charts including revenue, user growth, product performance and traffic.
+ */
 const Analytics = () => {
-  const updatedUserGrowthData = userGrowthData.map((item, index) => {
-    if (typeof item.value === 'string') {
-      return { ...item, value: Number(item.value) };
-    }
-    return item;
-  });
+  // Convert first four months user data from strings to numbers
+  const transformedUserData = userData.map((data, index) => (
+    index < 4 ? { ...data, value: Number(data.value) } : data
+  ));
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold">Analytics Dashboard</h1>
-      <div className="chart-container">
-        <h2>Monthly Revenue & Expenses</h2>
-        <ResponsiveContainer width="100%" height={400}>
-          <LineChart data={trafficData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" />
+      <h1>Analytics Dashboard</h1>
+
+      <ChartContainer title='Monthly Revenue & Expenses'>
+        <ResponsiveContainer height={400}>
+          <LineChart data={revenueData}>
+            <XAxis dataKey='name' />
             <YAxis />
             <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="revenue" stroke="#8884d8" />
-            <Line type="monotone" dataKey="expenses" stroke="#82ca9d" />
+            <Line type='monotone' dataKey='revenue' stroke='#8884d8' />
+            <Line type='monotone' dataKey='expenses' stroke='#82ca9d' />
           </LineChart>
         </ResponsiveContainer>
-      </div>
-      <div className="chart-container">
-        <h2>User Growth</h2>
-        <ResponsiveContainer width="100%" height={400}>
-          <LineChart data={updatedUserGrowthData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" />
+      </ChartContainer>
+
+      <ChartContainer title='User Growth'>
+        <ResponsiveContainer height={400}>
+          <LineChart data={transformedUserData}>
+            <XAxis dataKey='month' />
             <YAxis />
             <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="value" stroke="#8884d8" />
+            <Line type='monotone' dataKey='value' stroke='#ff7300' />
           </LineChart>
         </ResponsiveContainer>
-      </div>
-      <div className="chart-container">
-        <h2>Product Performance</h2>
-        <ResponsiveContainer width="100%" height={400}>
+      </ChartContainer>
+
+      <ChartContainer title='Product Performance'>
+        <ResponsiveContainer height={400}>
           <BarChart data={productPerformanceData}>
-            <XAxis dataKey="product" />
+            <XAxis dataKey='product' />
             <YAxis />
             <Tooltip />
-            <Legend />
-            <Bar dataKey="sales" fill="#82ca9d" />
-            <Bar dataKey="returns" fill="#ff0000" />
+            <Bar dataKey='sales' fill='#82ca9d' />
+            <Bar dataKey='returns' fillColor='#ff0000' />
           </BarChart>
         </ResponsiveContainer>
-      </div>
+      </ChartContainer>
+
+      <ChartContainer title='Website Traffic'>
+        <ResponsiveContainer height={400}>
+          <LineChart data={trafficData}>
+            <XAxis dataKey='month' />
+            <YAxis />
+            <Tooltip />
+            <Line type='monotone' dataKey='visitors' stroke='#8884d8' />
+          </LineChart>
+        </ResponsiveContainer>
+      </ChartContainer>
     </div>
   );
 };
